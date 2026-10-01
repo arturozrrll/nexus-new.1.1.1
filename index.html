@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101114"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="manifest" href="manifest.json"><title>Arsur Recipes</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--bg:#0f1013;--card:#191b20;--card2:#21242b;--text:#f6f7f9;--muted:#9ca3af;--accent:#9be15d;--accent2:#54c9a3;--danger:#ff667a;--line:#2b2e36}*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#0d0e11,#121419);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,Arial,sans-serif}button,input,textarea,select{font:inherit}button{border:0}.app{max-width:1050px;margin:auto;padding:18px 16px 100px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.brand{font-size:25px;font-weight:850;letter-spacing:-.8px}.brand span{color:var(--accent)}.sub{color:var(--muted);font-size:13px;margin-top:3px}.add{width:46px;height:46px;border-radius:15px;background:var(--accent);color:#10130e;font-size:28px;font-weight:800;box-shadow:0 8px 30px #9be15d25}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:17px}.stat{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:13px}.stat b{font-size:19px}.stat small{display:block;color:var(--muted);font-size:11px;margin-top:2px}.bar{height:5px;background:#30333a;border-radius:99px;margin-top:9px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px}.tools{display:flex;gap:8px;overflow:auto;padding-bottom:3px;margin-bottom:17px}.chip{white-space:nowrap;padding:9px 13px;border-radius:99px;background:var(--card);border:1px solid var(--line);color:#cbd0d8}.chip.active{background:#dfffad;color:#10130e;border-color:transparent;font-weight:700}.grid{display:grid;grid-template-columns:repeat(var(--cols,2),minmax(0,1fr));gap:12px}.grid.list{grid-template-columns:1fr}.grid.list .recipe{display:grid;grid-template-columns:150px 1fr}.grid.list .photo{aspect-ratio:1}.grid.list .info{align-self:center}.viewtools{display:flex;gap:10px;align-items:center;justify-content:space-between;margin:-7px 0 14px}.viewtools .group{display:flex;gap:6px;align-items:center}.columnsGroup{flex-shrink:0}.sortGroup{flex-shrink:0}.viewtools label{color:var(--muted);font-size:11px}.viewtools select,.viewbtn,.colbtn{background:var(--card);border:1px solid var(--line);color:#cbd0d8;border-radius:10px;padding:8px 10px}.colbtn{min-width:34px;cursor:pointer}.colbtn.active{background:#dfffad;color:#10130e;font-weight:700}.viewbtn.active{background:#dfffad;color:#10130e;font-weight:700}.recipe{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;position:relative;cursor:pointer}.photo{aspect-ratio:1/1;background:linear-gradient(135deg,#252830,#17191e);display:flex;align-items:center;justify-content:center;font-size:40px;overflow:hidden}.photo img{width:100%;height:100%;object-fit:cover}.heart{position:absolute;right:9px;top:9px;width:34px;height:34px;border-radius:12px;background:#111318bb;color:white;font-size:18px}.heart.on{color:#ff6175}.info{padding:12px}.name{font-weight:800;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{display:flex;gap:8px;color:var(--muted);font-size:11px;margin:5px 0 10px}.macros{display:flex;gap:6px;flex-wrap:wrap}.macro{font-size:10px;padding:5px 7px;border-radius:8px;background:var(--card2);color:#dce0e7}.p{color:var(--accent)}.empty{text-align:center;color:var(--muted);padding:55px 20px}.modal{position:fixed;inset:0;background:#000b;display:none;z-index:5;overflow:auto}.modal.show{display:block}.sheet{min-height:100%;background:#121419;max-width:700px;margin:auto;padding:18px 16px 35px}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.close{background:var(--card2);color:white;width:40px;height:40px;border-radius:13px;font-size:22px}.form{display:grid;gap:12px}.field label{display:block;color:#c5cad2;font-size:12px;font-weight:700;margin:0 0 6px}.field input,.field textarea,.field select{width:100%;background:var(--card);border:1px solid var(--line);color:white;border-radius:13px;padding:12px;outline:none}.field textarea{min-height:110px;resize:vertical}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px}.save{width:100%;background:var(--accent);color:#10130e;padding:14px;border-radius:14px;font-weight:850;margin-top:6px}.delete{width:100%;background:#28171b;color:#ff8795;padding:12px;border-radius:14px;font-weight:700}.detailPhoto{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:20px;background:#20232a}.detail h1{font-size:30px;letter-spacing:-1px;margin:15px 0 7px}.pills{display:flex;gap:7px;flex-wrap:wrap}.pill{background:var(--card2);border-radius:10px;padding:8px 10px;font-size:12px}.section{margin-top:23px}.section h3{margin:0 0 10px}.ingredients{display:grid;gap:7px}.ingredient{background:var(--card);border:1px solid var(--line);padding:11px;border-radius:12px}.steps{white-space:pre-wrap;line-height:1.65;color:#d8dbe1}.video{display:block;text-align:center;background:#262a31;color:white;padding:13px;border-radius:13px;text-decoration:none;margin-top:10px}.footer{position:fixed;bottom:0;left:0;right:0;background:#101115eF;backdrop-filter:blur(15px);border-top:1px solid var(--line);padding:10px max(16px,calc((100vw - 1050px)/2 + 16px));display:flex;justify-content:space-around}.nav{color:#8e949f;background:none;font-size:11px}.nav.active{color:var(--accent)}@media(min-width:700px){.app{padding-top:28px}.grid{gap:14px}.grid.list{grid-template-columns:1fr}.grid.list .recipe{grid-template-columns:190px 1fr}}@media(max-width:699px){
+:root{--bg:#0f1013;--card:#191b20;--card2:#21242b;--text:#f6f7f9;--muted:#9ca3af;--accent:#9be15d;--accent2:#54c9a3;--danger:#ff667a;--line:#2b2e36}*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#0d0e11,#121419);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,Arial,sans-serif}button,input,textarea,select{font:inherit}button{border:0}.app{max-width:1050px;margin:auto;padding:calc(18px + env(safe-area-inset-top)) 16px calc(100px + env(safe-area-inset-bottom));min-height:100dvh;overflow-x:hidden}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.brand{font-size:25px;font-weight:850;letter-spacing:-.8px}.brand span{color:var(--accent)}.sub{color:var(--muted);font-size:13px;margin-top:3px}.add{width:46px;height:46px;border-radius:15px;background:var(--accent);color:#10130e;font-size:28px;font-weight:800;box-shadow:0 8px 30px #9be15d25}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:17px}.stat{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:13px}.stat b{font-size:19px}.stat small{display:block;color:var(--muted);font-size:11px;margin-top:2px}.bar{height:5px;background:#30333a;border-radius:99px;margin-top:9px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px}.tools{display:flex;gap:8px;overflow:auto;padding-bottom:3px;margin-bottom:17px}.chip{white-space:nowrap;padding:9px 13px;border-radius:99px;background:var(--card);border:1px solid var(--line);color:#cbd0d8}.chip.active{background:#dfffad;color:#10130e;border-color:transparent;font-weight:700}.grid{display:grid;grid-template-columns:repeat(var(--cols,2),minmax(0,1fr));gap:12px}.grid.list{grid-template-columns:1fr}.grid.list .recipe{display:grid;grid-template-columns:150px 1fr}.grid.list .photo{aspect-ratio:1}.grid.list .info{align-self:center}.viewtools{display:flex;gap:8px;align-items:center;justify-content:space-between;margin:-7px 0 14px}.viewtools .group{display:flex;gap:6px;align-items:center}.viewtools label{color:var(--muted);font-size:11px}.viewtools select,.viewbtn{background:var(--card);border:1px solid var(--line);color:#cbd0d8;border-radius:10px;padding:8px 10px}.viewbtn.active{background:#dfffad;color:#10130e;font-weight:700}.recipe{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;position:relative;cursor:pointer}.photo{aspect-ratio:1/1;background:linear-gradient(135deg,#252830,#17191e);display:flex;align-items:center;justify-content:center;font-size:40px;overflow:hidden}.photo img{width:100%;height:100%;object-fit:cover}.heart{position:absolute;right:9px;top:9px;width:34px;height:34px;border-radius:12px;background:#111318bb;color:white;font-size:18px}.heart.on{color:#ff6175}.info{padding:12px}.name{font-weight:800;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{display:flex;gap:8px;color:var(--muted);font-size:11px;margin:5px 0 10px}.macros{display:flex;gap:6px;flex-wrap:wrap}.macro{font-size:10px;padding:5px 7px;border-radius:8px;background:var(--card2);color:#dce0e7}.p{color:var(--accent)}.empty{text-align:center;color:var(--muted);padding:55px 20px}.modal{position:fixed;inset:0;background:#000b;display:none;z-index:5;overflow:auto}.modal.show{display:block}.sheet{min-height:100%;background:#121419;max-width:700px;margin:auto;padding:18px 16px 35px}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.close{background:var(--card2);color:white;width:40px;height:40px;border-radius:13px;font-size:22px}.form{display:grid;gap:12px}.field label{display:block;color:#c5cad2;font-size:12px;font-weight:700;margin:0 0 6px}.field input,.field textarea,.field select{width:100%;background:var(--card);border:1px solid var(--line);color:white;border-radius:13px;padding:12px;outline:none}.field textarea{min-height:110px;resize:vertical}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px}.save{width:100%;background:var(--accent);color:#10130e;padding:14px;border-radius:14px;font-weight:850;margin-top:6px}.delete{width:100%;background:#28171b;color:#ff8795;padding:12px;border-radius:14px;font-weight:700}.detailPhoto{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:20px;background:#20232a}.detail h1{font-size:30px;letter-spacing:-1px;margin:15px 0 7px}.pills{display:flex;gap:7px;flex-wrap:wrap}.pill{background:var(--card2);border-radius:10px;padding:8px 10px;font-size:12px}.section{margin-top:23px}.section h3{margin:0 0 10px}.ingredients{display:grid;gap:7px}.ingredient{background:var(--card);border:1px solid var(--line);padding:11px;border-radius:12px}.steps{white-space:pre-wrap;line-height:1.65;color:#d8dbe1}.video{display:block;text-align:center;background:#262a31;color:white;padding:13px;border-radius:13px;text-decoration:none;margin-top:10px}.footer{position:fixed;bottom:0;left:0;right:0;background:#101115eF;backdrop-filter:blur(15px);border-top:1px solid var(--line);padding:10px max(16px,calc((100vw - 1050px)/2 + 16px)) calc(10px + env(safe-area-inset-bottom));display:flex;justify-content:space-around;z-index:4}.nav{color:#8e949f;background:none;font-size:11px}.nav.active{color:var(--accent)}@media(min-width:700px){.app{padding-top:28px}.grid{gap:14px}.grid.list{grid-template-columns:1fr}.grid.list .recipe{grid-template-columns:190px 1fr}}@media(max-width:699px){
 .grid{gap:8px}
 .recipe{border-radius:14px}
 .photo{aspect-ratio:1/1}
@@ -14,14 +14,14 @@
 .grid.list .name{font-size:14px}
 .grid.list .meta{flex-wrap:wrap}
 .grid.list .macros{flex-wrap:wrap}
-.viewtools{gap:7px;overflow-x:auto;justify-content:flex-start}.viewtools .group{flex-shrink:0}
+.viewtools{gap:5px;overflow-x:auto}
 .viewtools .group{flex-shrink:0}
 .viewtools select,.viewbtn{padding:7px 8px}
 }
 </style></head><body>
 <div class="app"><header class="top"><div><div class="brand">ARSUR <span>RECIPES</span></div><div class="sub">Come bien. Entrena. Cumple tus macros.</div></div><div style="display:flex;gap:8px"><button id="accountBtn" class="chip" onclick="openAuth()">☁️ Entrar</button><button class="add" onclick="openEditor()">+</button></div></header>
 <div class="stats"><div class="stat"><b id="todayK">0</b><small>kcal hoy / 2000</small><div class="bar"><i id="todayBar"></i></div></div><div class="stat"><b id="todayP">0g</b><small>proteína hoy / 180g</small><div class="bar"><i id="pBar"></i></div></div><div class="stat"><b id="count">0</b><small>recetas guardadas</small></div></div>
-<div class="tools"><button class="chip active" data-filter="all">Todas</button><button class="chip" data-filter="favorite">❤️ Favoritas</button><button class="chip" data-filter="Desayuno">Desayuno</button><button class="chip" data-filter="Comida">Comida</button><button class="chip" data-filter="Cena">Cena</button><button class="chip" data-filter="Snack">Snack</button></div><div class="viewtools"><div class="group columnsGroup"><label>Columnas</label><button class="colbtn" data-cols="3" onclick="setCols(3)">3</button><button class="colbtn" data-cols="4" onclick="setCols(4)">4</button><button class="colbtn" data-cols="5" onclick="setCols(5)">5</button></div><div class="group"><button id="gridBtn" class="viewbtn active" onclick="setView('grid')">▦ Cuadrícula</button><button id="listBtn" class="viewbtn" onclick="setView('list')">☷ Lista</button></div><div class="group sortGroup"><label>Orden</label><select id="sortSelect" onchange="setSort(this.value)"><option value="newest">Más nuevas</option><option value="oldest">Más antiguas</option><option value="name">Nombre</option><option value="kcal">Kcal</option><option value="protein">Proteína</option><option value="rating">Valoración</option></select></div></div>
+<div class="tools"><button class="chip active" data-filter="all">Todas</button><button class="chip" data-filter="favorite">❤️ Favoritas</button><button class="chip" data-filter="Desayuno">Desayuno</button><button class="chip" data-filter="Comida">Comida</button><button class="chip" data-filter="Cena">Cena</button><button class="chip" data-filter="Snack">Snack</button></div><div class="viewtools"><div class="group"><label>Mostrar</label><select id="colsSelect" onchange="setCols(this.value)"><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div><div class="group"><button id="gridBtn" class="viewbtn active" onclick="setView('grid')">▦ Cuadrícula</button><button id="listBtn" class="viewbtn" onclick="setView('list')">☷ Lista</button></div><div class="group"><label>Orden</label><select id="sortSelect" onchange="setSort(this.value)"><option value="newest">Más nuevas</option><option value="oldest">Más antiguas</option><option value="name">Nombre</option><option value="kcal">Kcal</option><option value="protein">Proteína</option><option value="rating">Valoración</option></select></div></div>
 <main id="grid" class="grid"></main></div>
 <nav class="footer"><button class="nav active">🍽️<br>Recetas</button><button class="nav" onclick="openEditor()">＋<br>Añadir</button><button class="nav" onclick="showSearch()">⌕<br>Buscar</button></nav>
 <div class="modal" id="editor"><div class="sheet"><div class="modalhead"><h2 id="editTitle">Nueva receta</h2><button class="close" onclick="closeModal('editor')">×</button></div><form class="form" onsubmit="saveRecipe(event)">
@@ -47,32 +47,6 @@ const SUPABASE_URL='https://ridnygpfifochnlmpjll.supabase.co';
 const SUPABASE_KEY='sb_publishable_13JUrsyonn0G-LCFwKbaXg__9qxBKI0';
 const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let recipes=[],filter='all',db=null,currentUser=null,authMode='login',realtimeChannel=null;
-const IMAGE_CACHE_KEY='arsurRecipeImageCacheV2';
-const IMAGE_URL_TTL=6*24*60*60*1000;
-const imageUrlCache=new Map();
-try{
-  const saved=JSON.parse(localStorage.getItem(IMAGE_CACHE_KEY)||'{}');
-  for(const [path,item] of Object.entries(saved)){
-    if(item?.url && item?.expiresAt>Date.now()) imageUrlCache.set(path,item.url);
-  }
-}catch(e){}
-function saveImageCache(){
-  const out={};
-  for(const [path,url] of imageUrlCache){
-    const old=out[path];
-    if(!old) out[path]={url,expiresAt:Date.now()+IMAGE_URL_TTL};
-  }
-  try{localStorage.setItem(IMAGE_CACHE_KEY,JSON.stringify(out))}catch(e){}
-}
-function invalidateImageUrl(path){
-  imageUrlCache.delete(path);
-  try{
-    const saved=JSON.parse(localStorage.getItem(IMAGE_CACHE_KEY)||'{}');
-    delete saved[path];
-    localStorage.setItem(IMAGE_CACHE_KEY,JSON.stringify(saved));
-  }catch(e){}
-}
-
 
 const req=indexedDB.open('arsur-recipes',1);
 req.onupgradeneeded=e=>e.target.result.createObjectStore('recipes',{keyPath:'id'});
@@ -87,11 +61,13 @@ function v(id){return document.getElementById(id).value.trim()}
 function closeModal(id){document.getElementById(id).classList.remove('show')}
 
 async function initCloud(){
-  const {data:{session}}=await supabaseClient.auth.getSession();
-  currentUser=session?.user||null;
-  updateAccountUI();
-  if(currentUser) await syncFromCloud();
-  else {recipes=await localLoad();render()}
+  try{
+    const {data:{session}}=await supabaseClient.auth.getSession();
+    currentUser=session?.user||null;
+    updateAccountUI();
+    if(currentUser) await syncFromCloud();
+    else {recipes=await localLoad();render()}
+  }catch(err){console.error(err);currentUser=null;updateAccountUI();try{recipes=await localLoad();render()}catch(e){}}
   supabaseClient.auth.onAuthStateChange(async (_event,session)=>{
     currentUser=session?.user||null; updateAccountUI();
     if(currentUser) await syncFromCloud();
@@ -116,14 +92,17 @@ function toggleAuthMode(){
 async function authSubmit(e){
   e.preventDefault();
   const email=v('authEmail'),password=document.getElementById('authPassword').value;
-  document.getElementById('authStatus').textContent='Conectando…';
-  const result=authMode==='login'
-    ? await supabaseClient.auth.signInWithPassword({email,password})
-    : await supabaseClient.auth.signUp({email,password});
-  if(result.error){document.getElementById('authStatus').textContent=result.error.message;return}
-  if(authMode==='signup' && !result.data.session){
-    document.getElementById('authStatus').textContent='Cuenta creada. Revisa tu email para confirmar la cuenta y después inicia sesión.';
-  } else {closeModal('auth')}
+  const status=document.getElementById('authStatus');
+  status.textContent='Conectando…';
+  try{
+    const result=authMode==='login'
+      ? await supabaseClient.auth.signInWithPassword({email,password})
+      : await supabaseClient.auth.signUp({email,password});
+    if(result.error){status.textContent=result.error.message;return}
+    if(authMode==='signup' && !result.data.session){
+      status.textContent='Cuenta creada. Revisa tu email para confirmar la cuenta y después inicia sesión.';
+    } else {closeModal('auth')}
+  }catch(err){status.textContent='No se pudo conectar: '+(err?.message||'Error desconocido')}
 }
 async function logout(){
   await supabaseClient.auth.signOut();
@@ -190,36 +169,26 @@ function render(){
 let cols=+(localStorage.arsurCols||4); if(![3,4,5].includes(cols))cols=4;
 let viewMode=localStorage.arsurView||'grid'; let sortMode=localStorage.arsurSort||'newest';
 function sortRecipes(a,b){if(sortMode==='oldest')return new Date(a.created_at||0)-new Date(b.created_at||0);if(sortMode==='name')return a.name.localeCompare(b.name,'es');if(sortMode==='kcal')return (+a.kcal||0)-(+b.kcal||0);if(sortMode==='protein')return (+b.protein||0)-(+a.protein||0);if(sortMode==='rating'){const ra=[a.ratingBreakfast,a.ratingLunch,a.ratingDinner].filter(x=>x!=null);const rb=[b.ratingBreakfast,b.ratingLunch,b.ratingDinner].filter(x=>x!=null);return (rb.length?rb.reduce((x,y)=>x+y,0)/rb.length:0)-(ra.length?ra.reduce((x,y)=>x+y,0)/ra.length:0)}return new Date(b.created_at||0)-new Date(a.created_at||0)}
-function setCols(v){cols=+v;localStorage.arsurCols=cols;document.querySelectorAll('.colbtn').forEach(b=>b.classList.toggle('active',+b.dataset.cols===cols));render()}
-function setView(v){viewMode=v;localStorage.arsurView=v;document.getElementById('gridBtn').classList.toggle('active',v==='grid');document.getElementById('listBtn').classList.toggle('active',v==='list');render()}
+function setCols(v){cols=+v;localStorage.arsurCols=cols;render()}
+function setView(v){viewMode=v;localStorage.arsurView=v;render();document.getElementById('gridBtn').classList.toggle('active',v==='grid');document.getElementById('listBtn').classList.toggle('active',v==='list')}
 function setSort(v){sortMode=v;localStorage.arsurSort=v;render()}
-function initDisplayControls(){document.querySelectorAll('.colbtn').forEach(b=>b.classList.toggle('active',+b.dataset.cols===cols));document.getElementById('sortSelect').value=sortMode;document.getElementById('gridBtn').classList.toggle('active',viewMode==='grid');document.getElementById('listBtn').classList.toggle('active',viewMode==='list')}
+function initDisplayControls(){document.getElementById('colsSelect').value=String(cols);document.getElementById('sortSelect').value=sortMode;document.getElementById('gridBtn').classList.toggle('active',viewMode==='grid');document.getElementById('listBtn').classList.toggle('active',viewMode==='list')}
 function card(r){
   let ratings=[r.ratingBreakfast,r.ratingLunch,r.ratingDinner].filter(x=>x!=null);
   let ratingHtml=ratings.length?'<div style="margin-top:8px;font-size:11px">⭐ '+(ratings.reduce((a,b)=>a+b,0)/ratings.length).toFixed(1)+'/10</div>':'';
   let img=r.image?(r.image.startsWith('data:')?r.image:null):null;
-  let cached=!img&&r.image?imageUrlCache.get(r.image):null;
-  let photo=cached?'<img src="'+esc(cached)+'" alt="" decoding="async">':(img?'<img src="'+img+'" alt="" decoding="async">':(r.image?'📷':'🍽️'));
-  return '<article class="recipe" onclick="openDetail(\''+r.id+'\')"><div class="photo" data-img="'+esc(r.image||'')+'">'+photo+'</div><button class="heart '+(r.favorite?'on':'')+'" onclick="event.stopPropagation();toggleFav(\''+r.id+'\')">'+(r.favorite?'♥':'♡')+'</button><div class="info"><div class="name">'+esc(r.name)+'</div><div class="meta"><span>⏱ '+r.time+' min</span><span>🔥 '+r.kcal+' kcal</span></div><div class="macros"><span class="macro p">P '+r.protein+'g</span><span class="macro">C '+r.carbs+'g</span><span class="macro">G '+r.fat+'g</span></div>'+ratingHtml+'</div></article>';
+  return '<article class="recipe" onclick="openDetail(\''+r.id+'\')"><div class="photo" data-img="'+esc(r.image||'')+'">'+(img?'<img src="'+img+'">':(r.image?'📷':'🍽️'))+'</div><button class="heart '+(r.favorite?'on':'')+'" onclick="event.stopPropagation();toggleFav(\''+r.id+'\')">'+(r.favorite?'♥':'♡')+'</button><div class="info"><div class="name">'+esc(r.name)+'</div><div class="meta"><span>⏱ '+r.time+' min</span><span>🔥 '+r.kcal+' kcal</span></div><div class="macros"><span class="macro p">P '+r.protein+'g</span><span class="macro">C '+r.carbs+'g</span><span class="macro">G '+r.fat+'g</span></div>'+ratingHtml+'</div></article>';
 }
 async function hydrateImages(){
+  if(!currentUser)return;
   const els=[...document.querySelectorAll('.photo[data-img]')];
   await Promise.all(els.map(async el=>{
     const path=el.dataset.img;
     if(!path||path.startsWith('data:'))return;
-    const cached=imageUrlCache.get(path);
-    if(cached){
-      const img=el.querySelector('img');
-      if(!img){
-        el.innerHTML='<img src="'+esc(cached)+'" alt="" decoding="async">';
-      }
-      continue;
+    const {data,error}=await supabaseClient.storage.from('recipe-images').createSignedUrl(path,3600);
+    if(!error&&data?.signedUrl){
+      el.innerHTML='<img loading="lazy" src="'+data.signedUrl+'" alt="">';
     }
-    const {data,error}=await supabaseClient.storage.from('recipe-images').createSignedUrl(path,IMAGE_URL_TTL/1000);
-    if(error||!data?.signedUrl) return;
-    imageUrlCache.set(path,data.signedUrl);
-    saveImageCache();
-    el.innerHTML='<img src="'+esc(data.signedUrl)+'" alt="" decoding="async">';
   }));
 }
 function updateStats(){let k=+localStorage.todayK||0,p=+localStorage.todayP||0;document.getElementById('todayK').textContent=k;document.getElementById('todayP').textContent=p+'g';document.getElementById('todayBar').style.width=Math.min(100,k/20)+'%';document.getElementById('pBar').style.width=Math.min(100,p/1.8)+'%';}
@@ -245,7 +214,7 @@ async function deleteCurrent(){
   try{
     if(currentUser){
       const r=recipes.find(x=>x.id===id);
-      if(r?.image){await supabaseClient.storage.from('recipe-images').remove([r.image]);invalidateImageUrl(r.image);}
+      if(r?.image)await supabaseClient.storage.from('recipe-images').remove([r.image]);
       const {error}=await supabaseClient.from('recipes').delete().eq('id',id);if(error)throw error;
     }else await localDel(id);
     recipes=recipes.filter(r=>r.id!==id);render();closeModal('editor');
