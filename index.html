@@ -47,6 +47,12 @@ const SUPABASE_URL='https://ridnygpfifochnlmpjll.supabase.co';
 const SUPABASE_KEY='sb_publishable_13JUrsyonn0G-LCFwKbaXg__9qxBKI0';
 const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let recipes=[],filter='all',db=null,currentUser=null,authMode='login',realtimeChannel=null;
+const IMAGE_CACHE_KEY='arsurRecipeImageCacheV3';
+const IMAGE_URL_TTL=50*60*1000;
+const imageUrlCache=new Map();
+try{const saved=JSON.parse(localStorage.getItem(IMAGE_CACHE_KEY)||'{}');for(const [path,item] of Object.entries(saved)){if(item?.url&&item?.expiresAt>Date.now())imageUrlCache.set(path,item)}}catch(e){}
+function saveImageCache(){const out={};for(const [path,item] of imageUrlCache)out[path]=item;try{localStorage.setItem(IMAGE_CACHE_KEY,JSON.stringify(out))}catch(e){}}
+function invalidateImageUrl(path){imageUrlCache.delete(path);saveImageCache()}
 
 const req=indexedDB.open('arsur-recipes',1);
 req.onupgradeneeded=e=>e.target.result.createObjectStore('recipes',{keyPath:'id'});
@@ -156,28 +162,31 @@ async function saveRecipe(e){
   try{await saveCloudRecipe(x);if(currentUser){const c=await supabaseClient.from('recipes').select('*').eq('id',id).single();if(c.data)x=fromCloud(c.data)};recipes=[...recipes.filter(r=>r.id!==id),x];render();closeModal('editor')}
   catch(err){alert('No se pudo guardar: '+err.message)}
 }
+function applyGridLayout(){const g=document.getElementById('grid');if(!g)return;g.style.setProperty('--cols',viewMode==='grid'?cols:1);g.classList.toggle('list',viewMode==='list')}
 function render(){
   let a=recipes.filter(r=>filter==='all'||(filter==='favorite'&&r.favorite)||(r.category===filter));
   a=[...a].sort((x,y)=>sortRecipes(x,y));
   document.getElementById('count').textContent=recipes.length;
   let g=document.getElementById('grid');
   g.innerHTML=a.length?a.map(card).join(''):'<div class="empty">Aún no tienes recetas aquí.<br><br>Pulsa <b>+</b> y crea la primera 🔥</div>';
-  hydrateImages();
   updateStats();
-  g.style.setProperty('--cols',viewMode==='grid'?cols:1); g.classList.toggle('list',viewMode==='list');
+  applyGridLayout();
+  hydrateImages();
 }
 let cols=+(localStorage.arsurCols||4); if(![3,4,5].includes(cols))cols=4;
 let viewMode=localStorage.arsurView||'grid'; let sortMode=localStorage.arsurSort||'newest';
 function sortRecipes(a,b){if(sortMode==='oldest')return new Date(a.created_at||0)-new Date(b.created_at||0);if(sortMode==='name')return a.name.localeCompare(b.name,'es');if(sortMode==='kcal')return (+a.kcal||0)-(+b.kcal||0);if(sortMode==='protein')return (+b.protein||0)-(+a.protein||0);if(sortMode==='rating'){const ra=[a.ratingBreakfast,a.ratingLunch,a.ratingDinner].filter(x=>x!=null);const rb=[b.ratingBreakfast,b.ratingLunch,b.ratingDinner].filter(x=>x!=null);return (rb.length?rb.reduce((x,y)=>x+y,0)/rb.length:0)-(ra.length?ra.reduce((x,y)=>x+y,0)/ra.length:0)}return new Date(b.created_at||0)-new Date(a.created_at||0)}
-function setCols(v){cols=+v;localStorage.arsurCols=cols;render()}
-function setView(v){viewMode=v;localStorage.arsurView=v;render();document.getElementById('gridBtn').classList.toggle('active',v==='grid');document.getElementById('listBtn').classList.toggle('active',v==='list')}
-function setSort(v){sortMode=v;localStorage.arsurSort=v;render()}
+function setCols(v){cols=+v;localStorage.arsurCols=cols;document.getElementById('colsSelect').value=String(cols);applyGridLayout()}
+function setView(v){viewMode=v;localStorage.arsurView=v;applyGridLayout();document.getElementById('gridBtn').classList.toggle('active',v==='grid');document.getElementById('listBtn').classList.toggle('active',v==='list')}
+function setSort(v){sortMode=v;localStorage.arsurSort=v;document.getElementById('sortSelect').value=sortMode;render()}
 function initDisplayControls(){document.getElementById('colsSelect').value=String(cols);document.getElementById('sortSelect').value=sortMode;document.getElementById('gridBtn').classList.toggle('active',viewMode==='grid');document.getElementById('listBtn').classList.toggle('active',viewMode==='list')}
 function card(r){
   let ratings=[r.ratingBreakfast,r.ratingLunch,r.ratingDinner].filter(x=>x!=null);
   let ratingHtml=ratings.length?'<div style="margin-top:8px;font-size:11px">⭐ '+(ratings.reduce((a,b)=>a+b,0)/ratings.length).toFixed(1)+'/10</div>':'';
   let img=r.image?(r.image.startsWith('data:')?r.image:null):null;
-  return '<article class="recipe" onclick="openDetail(\''+r.id+'\')"><div class="photo" data-img="'+esc(r.image||'')+'">'+(img?'<img src="'+img+'">':(r.image?'📷':'🍽️'))+'</div><button class="heart '+(r.favorite?'on':'')+'" onclick="event.stopPropagation();toggleFav(\''+r.id+'\')">'+(r.favorite?'♥':'♡')+'</button><div class="info"><div class="name">'+esc(r.name)+'</div><div class="meta"><span>⏱ '+r.time+' min</span><span>🔥 '+r.kcal+' kcal</span></div><div class="macros"><span class="macro p">P '+r.protein+'g</span><span class="macro">C '+r.carbs+'g</span><span class="macro">G '+r.fat+'g</span></div>'+ratingHtml+'</div></article>';
+  let cached=!img&&r.image?imageUrlCache.get(r.image)?.url:null;
+  let photo=cached?'<img src="'+esc(cached)+'" alt="" decoding="async">':(img?'<img src="'+img+'" alt="" decoding="async">':(r.image?'📷':'🍽️'));
+  return '<article class="recipe" onclick="openDetail(\\''+r.id+'\\')"><div class="photo" data-img="'+esc(r.image||'')+'">'+photo+'</div><button class="heart '+(r.favorite?'on':'')+'" onclick="event.stopPropagation();toggleFav(\\''+r.id+'\\')">'+(r.favorite?'♥':'♡')+'</button><div class="info"><div class="name">'+esc(r.name)+'</div><div class="meta"><span>⏱ '+r.time+' min</span><span>🔥 '+r.kcal+' kcal</span></div><div class="macros"><span class="macro p">P '+r.protein+'g</span><span class="macro">C '+r.carbs+'g</span><span class="macro">G '+r.fat+'g</span></div>'+ratingHtml+'</div></article>';
 }
 async function hydrateImages(){
   if(!currentUser)return;
@@ -185,9 +194,16 @@ async function hydrateImages(){
   await Promise.all(els.map(async el=>{
     const path=el.dataset.img;
     if(!path||path.startsWith('data:'))return;
+    const cached=imageUrlCache.get(path);
+    if(cached?.url&&cached.expiresAt>Date.now()){
+      if(!el.querySelector('img'))el.innerHTML='<img src="'+esc(cached.url)+'" alt="" decoding="async">';
+      return;
+    }
     const {data,error}=await supabaseClient.storage.from('recipe-images').createSignedUrl(path,3600);
     if(!error&&data?.signedUrl){
-      el.innerHTML='<img loading="lazy" src="'+data.signedUrl+'" alt="">';
+      imageUrlCache.set(path,{url:data.signedUrl,expiresAt:Date.now()+IMAGE_URL_TTL});
+      saveImageCache();
+      if(!el.querySelector('img'))el.innerHTML='<img src="'+esc(data.signedUrl)+'" alt="" decoding="async">';
     }
   }));
 }
@@ -214,7 +230,7 @@ async function deleteCurrent(){
   try{
     if(currentUser){
       const r=recipes.find(x=>x.id===id);
-      if(r?.image)await supabaseClient.storage.from('recipe-images').remove([r.image]);
+      if(r?.image){await supabaseClient.storage.from('recipe-images').remove([r.image]);invalidateImageUrl(r.image)}
       const {error}=await supabaseClient.from('recipes').delete().eq('id',id);if(error)throw error;
     }else await localDel(id);
     recipes=recipes.filter(r=>r.id!==id);render();closeModal('editor');
