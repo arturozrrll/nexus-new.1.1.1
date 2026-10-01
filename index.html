@@ -105,7 +105,7 @@ async function syncFromCloud(){
     .subscribe();
 }
 function fromCloud(r){
-  return {id:r.id,image:r.image_path||'',name:r.name,category:r.category,time:r.time_minutes||0,kcal:+r.kcal||0,protein:+r.protein_g||0,carbs:+r.carbs_g||0,fat:+r.fat_g||0,ingredients:Array.isArray(r.ingredients)?r.ingredients.join('\n'):(r.ingredients||''),steps:r.steps||'',video:r.video_url||'',favorite:!!r.favorite,ratingBreakfast:r.rating_breakfast==null?null:+r.rating_breakfast,ratingLunch:r.rating_lunch==null?null:+r.rating_lunch,ratingDinner:r.rating_dinner==null?null:+r.rating_dinner};
+  return {id:r.id,image:r.image_path||'',name:r.name,category:r.category,time:r.time_minutes||0,kcal:+r.kcal||0,protein:+r.protein_g||0,carbs:+r.carbs_g||0,fat:+r.fat_g||0,ingredients:Array.isArray(r.ingredients)?r.ingredients.join('\n'):(r.ingredients||''),steps:r.steps||'',video:r.video_url||'',favorite:!!r.favorite,ratingBreakfast:r.rating_breakfast==null?null:+r.rating_breakfast,ratingLunch:r.rating_lunch==null?null:+r.rating_lunch,ratingDinner:r.rating_dinner==null?null:+r.rating_dinner,created_at:r.created_at||null};
 }
 function toCloud(r){
   return {id:r.id,user_id:currentUser.id,name:r.name,category:r.category||'Otro',time_minutes:+r.time||0,kcal:+r.kcal||0,protein_g:+r.protein||0,carbs_g:+r.carbs||0,fat_g:+r.fat||0,ingredients:(r.ingredients||'').split('\n').filter(Boolean),steps:r.steps||'',video_url:r.video||null,favorite:!!r.favorite,rating_breakfast:r.ratingBreakfast==null?null:+r.ratingBreakfast,rating_lunch:r.ratingLunch==null?null:+r.ratingLunch,rating_dinner:r.ratingDinner==null?null:+r.ratingDinner,image_path:r.image||null};
